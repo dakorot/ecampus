@@ -1,0 +1,13 @@
+{% extends 'main_theme.html' %}
+
+{% block content %}
+<p>This is My Profile.</p>
+<p>Username: @{{ user.username }}</p>
+<p>Name: {{ profile.name }}</p>
+<p>Surname: {{ profile.surname }}</p>
+<p>Faculty: {{ profile.faculty }}</p>
+<p>Group: {{ profile.group }}</p>
+<p>Studying mode: {{ profile.studying_mode }}</p>
+<p>Major: {{ profile.major }}</p>
+
+{% endblock %}
