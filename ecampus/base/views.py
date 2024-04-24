@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Profile
+from .models import Profile, Post
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .forms import PostForm
 
 
 def login_page(request):
@@ -23,9 +24,7 @@ def login_page(request):
         else:
             messages.error(request, 'Username or password does not exist')
 
-
-    context = {}
-    return render(request, 'base/login_form.html', context)
+    return render(request, 'base/login_form.html')
 
 
 def logout_user(request):
@@ -45,7 +44,31 @@ def profile_page(request, pk):
 
 
 def feed_page(request):
-    return render(request, 'base/feed.html')
+    posts = Post.objects.all()
+    # feed_posts = post.post_set.all()
+    context = {'posts': posts}
+    return render(request, 'base/feed.html', context)
+
+
+def user_post(request, pk):
+    user_post = Post.objects.get(id=pk)
+    post_messages = user_post.messages_set.all()
+
+    context = {'user_post': user_post}
+    return render(request, 'base/post.html', context)
+
+
+def create_post(request):
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST)  # request.POST is all the data
+        if form.is_valid():
+            user_post = form.save(commit=False)
+            user_post.author = request.user
+            form.save()
+            return redirect('feed')
+    context = {'form': form}
+    return render(request, 'base/post_form.html', context)
 
 
 def messages_page(request):

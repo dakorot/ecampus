@@ -1,5 +1,15 @@
 {% extends 'main_theme.html' %}
 
 {% block content %}
-<p>This is Feed.</p>
+<div>
+
+    <a href="{% url 'create-post' %}">Create a Post</a>
+
+    {% for post in posts %}
+    <div>
+        <span>@{{ post.author.username }}</span>
+        <h5>{{ post.id }} -- <a href="{% url 'post' post.id %}">{{ post.title }}</a></h5>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
