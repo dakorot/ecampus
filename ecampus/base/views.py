@@ -52,7 +52,7 @@ def feed_page(request):
 
 def user_post(request, pk):
     user_post = Post.objects.get(id=pk)
-    post_messages = user_post.messages_set.all()
+    # post_messages = user_post.messages_set.all()
 
     context = {'user_post': user_post}
     return render(request, 'base/post.html', context)
@@ -61,7 +61,7 @@ def user_post(request, pk):
 def create_post(request):
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(request.POST)  # request.POST is all the data
+        form = PostForm(request.POST)
         if form.is_valid():
             user_post = form.save(commit=False)
             user_post.author = request.user
@@ -70,6 +70,26 @@ def create_post(request):
     context = {'form': form}
     return render(request, 'base/post_form.html', context)
 
+
+def update_post(request, pk):
+    user_post = Post.objects.get(id=pk)
+    form = PostForm(instance=user_post)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=user_post)
+        if form.is_valid():
+            user_post = form.save()
+            return redirect('feed')
+    context = {'form': form}
+    return render(request, 'base/post_form.html', context)
+
+
+def delete_post(request, pk):
+    user_post = Post.objects.get(id=pk)
+    if request.method == 'POST':
+        user_post.delete()
+        return redirect('feed')
+    context = {'object': user_post}
+    return render(request, 'base/delete.html', context)
 
 def messages_page(request):
     return render(request, 'base/messages.html')
