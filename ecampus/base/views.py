@@ -43,7 +43,6 @@ def logout_user(request):
 
 def register_user(request):
     form = UserCreationForm()
-
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
