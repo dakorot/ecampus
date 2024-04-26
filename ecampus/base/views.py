@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import Profile, Post
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 
 
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
@@ -45,7 +50,6 @@ def profile_page(request, pk):
 
 def feed_page(request):
     posts = Post.objects.all()
-    # feed_posts = post.post_set.all()
     context = {'posts': posts}
     return render(request, 'base/feed.html', context)
 
@@ -58,6 +62,7 @@ def user_post(request, pk):
     return render(request, 'base/post.html', context)
 
 
+@login_required(login_url='login')
 def create_post(request):
     form = PostForm()
     if request.method == 'POST':
@@ -71,18 +76,24 @@ def create_post(request):
     return render(request, 'base/post_form.html', context)
 
 
+@login_required(login_url='login')
 def update_post(request, pk):
     user_post = Post.objects.get(id=pk)
     form = PostForm(instance=user_post)
+
+    if request.user != user_post.author:
+        return HttpResponse('You are not the author.')
+
     if request.method == 'POST':
         form = PostForm(request.POST, instance=user_post)
         if form.is_valid():
-            user_post = form.save()
+            user_post.save()
             return redirect('feed')
     context = {'form': form}
     return render(request, 'base/post_form.html', context)
 
 
+@login_required(login_url='login')
 def delete_post(request, pk):
     user_post = Post.objects.get(id=pk)
     if request.method == 'POST':
@@ -90,6 +101,7 @@ def delete_post(request, pk):
         return redirect('feed')
     context = {'object': user_post}
     return render(request, 'base/delete.html', context)
+
 
 def messages_page(request):
     return render(request, 'base/messages.html')
