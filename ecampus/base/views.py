@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 def login_page(request):
@@ -76,10 +76,40 @@ def feed_page(request):
 
 def user_post(request, pk):
     user_post = Post.objects.get(id=pk)
-    # post_messages = user_post.messages_set.all()
+    comments = user_post.comment_set.all().order_by('created')
 
-    context = {'user_post': user_post}
+    if request.method == "POST":
+        comment = Comment.objects.create(
+            user=request.user,
+            post=user_post,
+            body=request.POST.get('body')
+        )
+        return redirect('user_post', pk=user_post.id)
+
+    context = {'user_post': user_post, 'comments': comments}
     return render(request, 'base/post.html', context)
+
+
+def update_comment(request, pk):
+    page = 'update-comment'
+    comment = Comment.objects.get(id=pk)
+    form = CommentForm(instance=comment)
+
+    if request.user != comment.user:
+        return HttpResponse('You are not the author.')
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment.save()
+            return redirect('feed')
+
+    context = {'form': form, 'page': page, 'comment': comment}
+    return render(request, 'base/post.html', context)
+
+
+def delete_comment(request):
+    pass
 
 
 @login_required(login_url='login')

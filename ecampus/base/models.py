@@ -32,7 +32,7 @@ class Post(models.Model):
         return self.title
 
 
-class Message(models.Model):
+class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField()
