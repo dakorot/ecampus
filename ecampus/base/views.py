@@ -62,8 +62,12 @@ def home_page(request):
     return render(request, 'base/home.html')
 
 
-def profile_page(request, pk):
-    profile = Profile.objects.get(id=pk)
+def profile_page(request, pk=None):
+    if pk is None:
+        user = request.user
+    else:
+        user = User.objects.get(id=pk)
+    profile = Profile.objects.get(user=user)
     context = {'profile': profile}
     return render(request, 'base/profile.html', context)
 
@@ -108,8 +112,15 @@ def update_comment(request, pk):
     return render(request, 'base/post.html', context)
 
 
-def delete_comment(request):
-    pass
+def delete_comment(request, pk):
+    comment = Comment.objects.get(id=pk)
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('feed')
+
+    context = {'object': comment}
+    return render(request, 'base/delete.html', context)
 
 
 @login_required(login_url='login')

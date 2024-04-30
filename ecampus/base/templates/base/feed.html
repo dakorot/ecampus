@@ -11,7 +11,7 @@
         <a href="{% url 'update-post' user_post.id %}">Edit</a>
         <a href="{% url 'delete-post' user_post.id %}">Delete</a>
         {% endif %}
-        <span>@{{ user_post.author.username }}</span>
+        <span><a href="{% url 'profile' user_post.author.id %}">@{{ user_post.author.username }}</a></span>
         <h5>{{ user_post.id }} -- <a href="{% url 'user_post' user_post.id %}">{{ user_post.title }}</a></h5>
     </div>
     {% endfor %}
