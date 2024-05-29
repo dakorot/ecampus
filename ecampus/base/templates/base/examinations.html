@@ -1,5 +1,36 @@
 {% extends 'main_theme.html' %}
 
 {% block content %}
-<p>This is Examinations.</p>
+<style>
+    table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<div>
+<p>Examinations 2024</p>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Examiner</th>
+        </tr>
+        <tr>
+            <td>Mathematical Analysis 1</td>
+            <td>02.06.2024</td>
+            <td>Pr. Kowalski</td>
+        </tr>
+        <tr>
+            <td>Discrete Mathematics</td>
+            <td>04.06.2024</td>
+            <td>Pr. Amanowska</td>
+        </tr>
+        <tr>
+            <td>Programming 1</td>
+            <td>06.06.2024</td>
+            <td>Pr. Lupa</td>
+        </tr>
+    </table>
+</div>
 {% endblock %}

@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Profile, Post, Comment
+from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, MessageForm, GradeForm
 
 
 def login_page(request):
@@ -94,35 +94,6 @@ def user_post(request, pk):
     return render(request, 'base/post.html', context)
 
 
-def update_comment(request, pk):
-    page = 'update-comment'
-    comment = Comment.objects.get(id=pk)
-    form = CommentForm(instance=comment)
-
-    if request.user != comment.user:
-        return HttpResponse('You are not the author.')
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            comment.save()
-            return redirect('feed')
-
-    context = {'form': form, 'page': page, 'comment': comment}
-    return render(request, 'base/post.html', context)
-
-
-def delete_comment(request, pk):
-    comment = Comment.objects.get(id=pk)
-
-    if request.method == 'POST':
-        comment.delete()
-        return redirect('feed')
-
-    context = {'object': comment}
-    return render(request, 'base/delete.html', context)
-
-
 @login_required(login_url='login')
 def create_post(request):
     form = PostForm()
@@ -164,12 +135,79 @@ def delete_post(request, pk):
     return render(request, 'base/delete.html', context)
 
 
+def update_comment(request, pk):
+    page = 'update-comment'
+    comment = Comment.objects.get(id=pk)
+    form = CommentForm(instance=comment)
+
+    if request.user != comment.user:
+        return HttpResponse('You are not the author.')
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment.save()
+            return redirect('feed')
+
+    context = {'form': form, 'page': page, 'comment': comment}
+    return render(request, 'base/post.html', context)
+
+
+def delete_comment(request, pk):
+    comment = Comment.objects.get(id=pk)
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('feed')
+
+    context = {'object': comment}
+    return render(request, 'base/delete.html', context)
+
+
 def messages_page(request):
-    return render(request, 'base/messages.html')
+    inbox_messages = Message.objects.filter(receiver=request.user)
+    sent_messages = Message.objects.filter(sender=request.user)
+    context = {'inbox_messages': inbox_messages, 'sent_messages': sent_messages}
+    return render(request, 'base/messages.html', context)
+
+
+def create_message(request):
+    form = MessageForm()
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            form.save()
+            return redirect('messages')
+    context = {'form': form}
+    return render(request, 'base/message_form.html', context)
 
 
 def performance_page(request):
     return render(request, 'base/performance.html')
+
+
+def grades_page(request):
+    grades = Grade.objects.all()
+    print(grades)
+    context = {'grades': grades}
+    return render(request, 'base/grades.html', context)
+
+
+def update_grades(request, pk):
+    grade = Grade.objects.get(id=pk)
+    form = GradeForm(instance=grade)
+
+    if request.method == 'POST':
+        form = GradeForm(request.POST, instance=grade)
+        if form.is_valid():
+            grade.save()
+            return redirect('grades')
+
+    context = {'grade': grade}
+    return render(request, 'base/grades_form.html', context)
 
 
 def examinations_page(request):
