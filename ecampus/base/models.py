@@ -1,23 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 
 
-# class User(AbstractUser):
-#     ROLES = (
-#         ('ADMIN', 'Admin'),
-#         ('STUDENT', 'Student'),
-#         ('LECTURER', 'Lecturer')
-#     )
-#
-#     role = models.CharField(max_length=50, choices=ROLES)
+class User(AbstractUser):
+    ROLES = (
+        ('ADMIN', 'Admin'),
+        ('STUDENT', 'Student'),
+        ('LECTURER', 'Lecturer')
+    )
+
+    role = models.CharField(max_length=10, choices=ROLES)
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     faculty = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=10, choices=User.ROLES)
 
 
 class Student(Profile):
