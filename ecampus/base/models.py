@@ -31,6 +31,11 @@ class Student(Profile):
     def __str__(self):
         return f'{self.name} {self.surname}'
 
+    class Meta:
+        permissions = [
+            ('view_my_performance', 'Can view My Performance section'),
+        ]
+
 
 class Lecturer(Profile):
     title = models.CharField(max_length=50)
@@ -38,6 +43,14 @@ class Lecturer(Profile):
 
     def __str__(self):
         return f'{self.name} {self.surname}'
+
+    class Meta:
+        permissions = [
+            ('view_grades', 'Can view Grades section'),
+            ('add_grades', 'Can add grades to Grades section'),
+            ('edit_grades', 'Can edit grades in Grades section'),
+            ('delete_grades', 'Can delete grades in Grades section')
+        ]
 
 
 class Post(models.Model):

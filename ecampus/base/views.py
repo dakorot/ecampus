@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm, MessageForm, GradeForm
+from django.contrib.auth.decorators import permission_required
 
 
 def login_page(request):
@@ -189,9 +190,9 @@ def performance_page(request):
     return render(request, 'base/performance.html')
 
 
+@permission_required('base.view_grades', login_url='login', raise_exception=HttpResponseForbidden)
 def grades_page(request):
     grades = Grade.objects.all()
-    print(grades)
     context = {'grades': grades}
     return render(request, 'base/grades.html', context)
 
