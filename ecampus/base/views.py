@@ -136,6 +136,7 @@ def delete_post(request, pk):
     return render(request, 'base/delete.html', context)
 
 
+@login_required(login_url='login')
 def update_comment(request, pk):
     page = 'update-comment'
     comment = Comment.objects.get(id=pk)
@@ -154,6 +155,7 @@ def update_comment(request, pk):
     return render(request, 'base/post.html', context)
 
 
+@login_required(login_url='login')
 def delete_comment(request, pk):
     comment = Comment.objects.get(id=pk)
 
@@ -165,6 +167,7 @@ def delete_comment(request, pk):
     return render(request, 'base/delete.html', context)
 
 
+@login_required(login_url='login')
 def messages_page(request):
     inbox_messages = Message.objects.filter(receiver=request.user)
     sent_messages = Message.objects.filter(sender=request.user)
@@ -172,6 +175,7 @@ def messages_page(request):
     return render(request, 'base/messages.html', context)
 
 
+@login_required(login_url='login')
 def create_message(request):
     form = MessageForm()
 
@@ -186,10 +190,12 @@ def create_message(request):
     return render(request, 'base/message_form.html', context)
 
 
+@login_required(login_url='login')
 def performance_page(request):
     return render(request, 'base/performance.html')
 
 
+@login_required(login_url='login')
 @permission_required('base.view_grades', login_url='login', raise_exception=HttpResponseForbidden)
 def grades_page(request):
     grades = Grade.objects.all()
@@ -197,6 +203,14 @@ def grades_page(request):
     return render(request, 'base/grades.html', context)
 
 
+@login_required(login_url='login')
+@permission_required('base.add_grades', login_url='login', raise_exception=HttpResponseForbidden)
+def create_grades(request):
+    pass
+
+
+@login_required(login_url='login')
+@permission_required('base.edit_grades', login_url='login', raise_exception=HttpResponseForbidden)
 def update_grades(request, pk):
     grade = Grade.objects.get(id=pk)
     form = GradeForm(instance=grade)
@@ -211,6 +225,13 @@ def update_grades(request, pk):
     return render(request, 'base/grades_form.html', context)
 
 
+@login_required(login_url='login')
+@permission_required('base.delete_grades', login_url='login', raise_exception=HttpResponseForbidden)
+def delete_grades(request):
+    pass
+
+
+@login_required(login_url='login')
 def examinations_page(request):
     return render(request, 'base/examinations.html')
 
@@ -219,6 +240,7 @@ def documents_page(request):
     return render(request, 'base/documents.html')
 
 
+@login_required(login_url='login')
 def subjects_choice_page(request):
     return render(request, 'base/subjects_choice.html')
 
