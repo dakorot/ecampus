@@ -25,4 +25,4 @@ class MessageForm(ModelForm):
 class GradeForm(ModelForm):
     class Meta:
         model = Grade
-        fields = ['grade']
+        fields = ['student', 'grade']
