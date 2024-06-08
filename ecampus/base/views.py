@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -19,11 +19,6 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, 'User does not exist')
 
         user = authenticate(request, username=username, password=password)
 
@@ -138,7 +133,6 @@ def delete_post(request, pk):
 
 @login_required(login_url='login')
 def update_comment(request, pk):
-    page = 'update-comment'
     comment = Comment.objects.get(id=pk)
     form = CommentForm(instance=comment)
 
@@ -151,8 +145,8 @@ def update_comment(request, pk):
             comment.save()
             return redirect('feed')
 
-    context = {'form': form, 'page': page, 'comment': comment}
-    return render(request, 'base/post.html', context)
+    context = {'form': form}
+    return render(request, 'base/comment_form.html', context)
 
 
 @login_required(login_url='login')
@@ -205,13 +199,23 @@ def grades_page(request):
 
 @login_required(login_url='login')
 @permission_required('base.add_grades', login_url='login', raise_exception=HttpResponseForbidden)
-def create_grades(request):
-    pass
+def create_grade(request):
+    form = GradeForm()
+    lecturer = Lecturer.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = GradeForm(request.POST)
+        if form.is_valid():
+            grade = form.save(commit=False)
+            grade.lecturer = lecturer
+            form.save()
+            return redirect('grades')
+    context = {'form': form}
+    return render(request, 'base/grade_form.html', context)
 
 
 @login_required(login_url='login')
 @permission_required('base.edit_grades', login_url='login', raise_exception=HttpResponseForbidden)
-def update_grades(request, pk):
+def update_grade(request, pk):
     grade = Grade.objects.get(id=pk)
     form = GradeForm(instance=grade)
 
@@ -220,15 +224,24 @@ def update_grades(request, pk):
         if form.is_valid():
             grade.save()
             return redirect('grades')
+        else:
+            messages.error(request, 'Something went wrong')
 
-    context = {'grade': grade}
-    return render(request, 'base/grades_form.html', context)
+    context = {'form': form}
+    return render(request, 'base/grade_form.html', context)
 
 
 @login_required(login_url='login')
 @permission_required('base.delete_grades', login_url='login', raise_exception=HttpResponseForbidden)
-def delete_grades(request):
-    pass
+def delete_grade(request, pk):
+    grade = Grade.objects.get(id=pk)
+
+    if request.method == 'POST':
+        grade.delete()
+        return redirect('grades')
+
+    context = {'object': grade}
+    return render(request, 'base/delete.html', context)
 
 
 @login_required(login_url='login')
