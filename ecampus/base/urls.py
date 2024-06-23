@@ -25,5 +25,7 @@ urlpatterns = [
     path('examinations/', views.examinations_page, name='examinations'),
     path('documents/', views.documents_page, name='documents'),
     path('subjects-choice/', views.subjects_choice_page, name='subjects-choice'),
+    path('subjects-choice/<str:question_pk>/', views.vote, name='vote'),
+    path('subjects-choice/<str:question_pk>/results/', views.vote_results, name='vote-results'),
     path('help/', views.help_page, name='help'),
 ]

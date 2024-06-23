@@ -1,0 +1,22 @@
+{% extends 'main_theme.html' %}
+
+{% block content %}
+<div class="vote-results">
+    <p>{{ question }} -- Results </p>
+    {% for choice in choices %}
+    <p>* {{ choice.votes }} students chose {{ choice.choice_text }}</p>
+    {% endfor %}
+</div>
+
+<div>
+    {% for student in students %}
+        <p>> {{ student }} chose
+            <ul>
+                {% for choice in student.choices.all %}
+                <li>{{ choice }}</li>
+                {% endfor %}
+            </ul>
+        </p>
+    {% endfor %}
+</div>
+{% endblock %}

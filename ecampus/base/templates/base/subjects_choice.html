@@ -2,4 +2,28 @@
 
 {% block content %}
 <p>This is Subjects Choice.</p>
+
+<div class="questions">
+    {% for question in questions %}
+        <div class="elective-subject">
+            <h3>{{ question }}</h3>
+            <form action="{% url 'vote' question.id %}" method="POST">
+                {% csrf_token %}
+                <input class="submit-button" type="submit" value="Choose"/>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
+{% if student.choices %}
+<div>
+    <h3>Your Choices</h3>
+    <ul>
+        {% for choice in student.choices.all %}
+            <li>{{ choice }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 {% endblock %}

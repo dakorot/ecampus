@@ -1,0 +1,15 @@
+{% extends 'main_theme.html' %}
+
+{% block content %}
+
+<div class="vote-form">
+    <h2>{{ question.question_text }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.question }}
+        {{ form.as_p }}
+        <input class="submit-button" type="submit" value="Choose"/>
+    </form>
+</div>
+
+{% endblock %}

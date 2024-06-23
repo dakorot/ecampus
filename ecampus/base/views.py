@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
-from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade
-from django.contrib.auth.models import User
+from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade, Question, Choice
+from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm, CommentForm, MessageForm, GradeForm
+from .forms import PostForm, CommentForm, MessageForm, GradeForm, VoteForm
 from django.contrib.auth.decorators import permission_required
 
 
@@ -60,10 +60,9 @@ def home_page(request):
 
 def profile_page(request, pk=None):
     if pk is None:
-        user = request.user
+        profile = request.user.profile
     else:
-        user = User.objects.get(id=pk)
-    profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(id=pk)
     context = {'profile': profile}
     return render(request, 'base/profile.html', context)
 
@@ -255,7 +254,43 @@ def documents_page(request):
 
 @login_required(login_url='login')
 def subjects_choice_page(request):
-    return render(request, 'base/subjects_choice.html')
+    questions = Question.objects.all()
+    student = Student.objects.get(user=request.user)
+
+    context = {'questions': questions, 'student': student}
+    return render(request, 'base/subjects_choice.html', context)
+
+
+def vote(request, question_pk):
+    question = Question.objects.get(id=question_pk)
+    form = VoteForm()
+    student = Student.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = VoteForm(request.POST, question_id=question_pk)
+        if form.is_valid():
+            choices = form.cleaned_data['choices']
+            print(choices)
+            for choice in choices:
+                choice.votes = F('votes') + 1
+                # choice.save(commit=False)
+                choice.save()
+                student.choices.add(choice)
+            return redirect('vote-results', question_pk=question_pk)
+    elif request.method == 'GET':
+        form = VoteForm(request.POST, question_id=question_pk)
+    context = {'question': question, 'form': form}
+    return render(request, 'base/vote_form.html', context)
+
+
+def vote_results(request, question_pk):
+    question = Question.objects.get(id=question_pk)
+    choices = question.choice_set.all()
+    students = Student.objects.all()
+
+    context = {'question': question, 'choices': choices, 'students': students}
+
+    return render(request, 'base/vote_results.html', context)
 
 
 def help_page(request):
