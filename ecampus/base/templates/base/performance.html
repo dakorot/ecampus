@@ -1,5 +1,20 @@
 {% extends 'main_theme.html' %}
 
 {% block content %}
-<p>This is My Performance.</p>
+<div class="grades-table">
+    <table>
+        <tr>
+            <th>Grade</th>
+            <th>Lecturer</th>
+            <th>Date</th>
+        </tr>
+        {% for grade in grades %}
+        <tr>
+            <td>{{ grade }}</td>
+            <td>{{ grade.lecturer}}</td>
+            <td>{{ grade.created }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

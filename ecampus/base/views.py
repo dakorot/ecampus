@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
-from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade, Question, Choice
+from django.http import HttpResponse, HttpResponseForbidden
+from django.core.exceptions import ValidationError
+from .models import Profile, Student, Lecturer, Post, Comment, Message, Grade, Question
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -185,7 +186,10 @@ def create_message(request):
 
 @login_required(login_url='login')
 def performance_page(request):
-    return render(request, 'base/performance.html')
+    student = Student.objects.get(user=request.user)
+    grades = Grade.objects.filter(student=student)
+    context = {'grades': grades}
+    return render(request, 'base/performance.html', context)
 
 
 @login_required(login_url='login')
@@ -270,13 +274,15 @@ def vote(request, question_pk):
         form = VoteForm(request.POST, question_id=question_pk)
         if form.is_valid():
             choices = form.cleaned_data['choices']
-            print(choices)
-            for choice in choices:
-                choice.votes = F('votes') + 1
-                # choice.save(commit=False)
-                choice.save()
-                student.choices.add(choice)
-            return redirect('vote-results', question_pk=question_pk)
+            if choices.count() == 2:
+                for choice in choices:
+                    choice.votes = F('votes') + 1
+                    choice.save()
+                    student.choices.add(choice)
+                return redirect('vote-results', question_pk=question_pk)
+            else:
+                messages.error(request, 'You have to choose 2 subjects only.')
+
     elif request.method == 'GET':
         form = VoteForm(request.POST, question_id=question_pk)
     context = {'question': question, 'form': form}
