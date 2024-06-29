@@ -1,0 +1,26 @@
+{% extends 'main_theme.html' %}
+{% block content %}
+<div class="grades-table">
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Grade</th>
+        </tr>
+
+
+            {% for grade in grades %}
+                {% if grade.lecturer.user == request.user %}
+        <tr>
+
+            <td>{{ grade.student.name }} {{ grade.student.surname }}</td>
+            <td>{{ grade }}</td>
+            <td><a class="action-link" href="{% url 'update-grade' grade.id %}">Edit</a></td>
+            <td><a class="action-link" href="{% url 'delete-grade' grade.id %}">Delete</a></td>
+        </tr>
+                {% endif %}
+            {% endfor %}
+
+    </table>
+        <a class="action-link" href="{% url 'create-grade' %}">Add</a></td>
+</div>
+{% endblock %}

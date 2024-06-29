@@ -1,7 +1,6 @@
 {% extends 'main_theme.html' %}
 
 {% block content %}
-
 <div>
     {% if page == 'login' %}
     <form method="POST" action="">
@@ -13,19 +12,19 @@
         <label>Password:</label>
         <input type="password" name="password" placeholder="Enter password"/>
 
-        <input type="submit" value="Login">
+        <input class="submit-button" type="submit" value="Login">
     </form>
     <p>Haven't registered yet?</p>
-    <a href="{% url 'register' %}">Register</a>
+    <a class="register-link" href="{% url 'register' %}">Register</a>
 
     {% else %}
     <form method="POST" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Register">
+        <input class="submit-button" type="submit" value="Register">
     </form>
     <p>Have you already registered?</p>
-    <a href="{% url 'login' %}">Login</a>
+    <a class="login-link" href="{% url 'login' %}">Login</a>
     {% endif %}
 </div>
 

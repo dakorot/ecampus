@@ -1,38 +1,38 @@
 {% extends 'main_theme.html' %}
-{% block content %}
-<a href="{% url 'feed' %}"><h3>Back to Feed</h3></a>
-<h1>{{ user_post.title }}</h1>
-<p>{{ user_post.content }}</p>
 
-<div class="comment-wrapper">
+{% block content %}
+<div class="back-to-feed">
+    <a class="back-to-feed-link" href="{% url 'feed' %}"><h3>Back to Feed</h3></a>
+</div>
+
+<div>
+    <h1>{{ user_post.title }}</h1>
+    <div class="post-content">
+        <p>{{ user_post.content }}</p>
+    </div>
+</div>
+
+<div class="comments-section">
     <h3>Discussion</h3>
-    <hr>
+    <hr class="comments-section-division">
     {% for comment in comments %}
-    <div>
+    <div class="comment">
         {% if request.user == comment.user %}
-        <a href="{% url 'update-comment' comment.id %}">Edit</a>
-        <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+        <a class="edit-comment-link" href="{% url 'update-comment' comment.id %}">Edit</a>
+        <a class="delete-comment-link" href="{% url 'delete-comment' comment.id %}">Delete</a>
         {% endif %}
-        <small><a href="{% url 'profile' comment.user.id %}">@{{ comment.user }}</a>   {{ comment.created|timesince }} ago</small>
+        <small><a class="author-link" href="{% url 'profile' comment.user.profile.id %}">@{{ comment.user }}</a>   {{ comment.created|timesince }} ago</small>
         <p>{{ comment.body }}</p>
-        <hr>
+        <hr class="comments-division">
     </div>
     {% endfor %}
 </div>
 
-{% if request.user.is_authenticated %}
-    {% if page == 'update-comment' %}
-    <p>Your comment: {{ comment.body }}</p>
-    {% endif %}
 <div class="comment-form">
     <form method="POST" action="">
         {% csrf_token %}
-        <input type="text" name="body" placeholder="Write your comment here..."/>
+        <input class="write-comment-bar" type="text" name="body" placeholder="Write your comment here..."/>
     </form>
-
 </div>
-{% endif %}
-
-
 
 {% endblock %}

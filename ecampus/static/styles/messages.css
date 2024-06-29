@@ -1,0 +1,23 @@
+.messages-division {
+    color: #DEF2F1;
+}
+
+.sender-link:link,
+.sender-link:visited,
+.receiver-link:link,
+.receiver-link:visited,
+.write-message-link:link,
+.write-message-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.sender-link:hover,
+.sender-link:active,
+.receiver-link:hover,
+.receiver-link:active,
+.write-message-link:hover,
+.write-message-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}

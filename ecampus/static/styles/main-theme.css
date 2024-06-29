@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: Roboto, Arial;
+    font-size: 18px;
+    color: #2B7A78;
+    margin-left: 190px;
+    margin-right: 40px;
+    margin-top: 90px;
+}
+
+.register-link:link,
+.register-link:visited,
+.login-link:link,
+.login-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.register-link:hover,
+.register-link:active,
+.login-link:hover,
+.login-link:active  {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+hr {
+    width: 100%;
+    color: #2B7A78;
+}
+
+.submit-button {
+    background-color: #3AAFA9;
+    border: none;
+    border-radius: 4px;
+    padding: 6px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.submit-button: hover {
+    color: #2B7A78;
+}
+
+.go-back-link:link,
+.go-back-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.go-back-link:hover,
+.go-back-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+table, th, td {
+    border: 1px solid #2B7A78;
+    border-collapse: collapse;
+    width: 40%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.action-link:link,
+.action-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.action-link:hover,
+.action-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}

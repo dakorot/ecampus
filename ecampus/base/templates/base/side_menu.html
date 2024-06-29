@@ -1,0 +1,24 @@
+<div class="side-menu">
+        <a class="side-menu-link" href="{% url 'feed' %}">Feed</a>
+
+        <a class="side-menu-link" href="{% url 'messages' %}">My Messages</a>
+
+        {% if request.user.profile.role == 'STUDENT' %}
+        <a class="side-menu-link" href="{% url 'performance' %}">My Performance</a>
+        {% endif %}
+
+        {% if request.user.profile.role == 'LECTURER' %}
+        <a class="side-menu-link" href="{% url 'grades' %}">Grades</a>
+        {% endif %}
+
+        <a class="side-menu-link" href="{% url 'examinations' %}">Examinations</a>
+
+        <a class="side-menu-link" href="{% url 'documents' %}">Documents</a>
+
+        {% if request.user.profile.role == 'STUDENT' %}
+        <a class="side-menu-link" href="{% url 'subjects-choice' %}">Subjects Choice</a>
+        {% endif %}
+
+        <a class="side-menu-link" href="{% url 'help' %}">Help</a>
+
+</div>

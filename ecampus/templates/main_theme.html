@@ -1,25 +1,29 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ecampus</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ecampus</title>
+        <link rel="stylesheet" href="{% static 'styles/main-theme.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/navigation-bar.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/side-menu.css' %}">
+        <link rel="stylesheet" href="{% static 'styles/bottom-info-bar.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/feed.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/post.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/comments.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/messages.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styles/profile.css' %}"/>
 
-{% include 'navigation_bar.html' %}
 
-{% if messages %}
-<ul class="messages">
-  {% for message in messages %}
-  <li>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
+    </head>
+    <body>
+        {% include 'navigation_bar.html' %}
 
-{% block content %}
-{% endblock %}
+        {% include 'base/side_menu.html' %}
 
-{% include 'bottom_bar.html' %}
+        {% block content %}
+        {% endblock %}
 
-</body>
+        {% include 'bottom_bar.html' %}
+    </body>
 </html>

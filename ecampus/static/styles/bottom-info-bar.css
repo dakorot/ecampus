@@ -1,0 +1,28 @@
+.bottom-bar-info {
+    position: fixed:
+    bottom: 0;
+    left: 60px;
+    right: 0;
+    color: #2B7A78;
+    height: 50px;
+}
+
+.university-name {
+    font-weight: 500;
+}
+
+.university-phone:link,
+.university-phone:visited,
+.university-email:link,
+.university-email:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.university-phone:hover,
+.university-phone:active,
+.university-email:hover,
+.university-email:active  {
+    text-decoration: underline;
+    opacity: 0.6;
+}

@@ -2,17 +2,17 @@
 
 {% block content %}
 <p>This is My Messages.</p>
-<div>
+<div class="messages">
     <h3>Inbox</h3>
     {% for message in inbox_messages %}
-    <p>< @<a href="{% url 'profile' message.sender.id %}">{{ message.sender }}</a> -- {{ message.body }} </a></p>
+    <p>< @<a class="sender-link" href="{% url 'profile' message.sender.id %}">{{ message.sender }}</a> -- {{ message.body }}</p>
     {% endfor %}
-    <hr>
+    <hr class="messages-division">
     <h3>Sent</h3>
     {% for message in sent_messages %}
-    <p>> @<a href="{% url 'profile' message.receiver.id %}">{{ message.receiver }}</a> -- {{ message.body }}</p>
+    <p>> @<a class="receiver-link" href="{% url 'profile' message.receiver.id %}">{{ message.receiver }}</a> -- {{ message.body }}</p>
     {% endfor %}
-    <hr>
-    <a href="{% url 'create-message' %}">Write a message</a>
+    <hr class="messages-division">
+    <a class="write-message-link" href="{% url 'create-message' %}">Write a message</a>
 </div>
 {% endblock %}

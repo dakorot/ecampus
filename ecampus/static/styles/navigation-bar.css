@@ -1,0 +1,58 @@
+.navigation-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #DEF2F1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.navigation-bar .website-logo {
+    margin-left: 40px;
+}
+
+.navigation-bar .welcome-text {
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+}
+
+.navigation-bar .website-logo h1 {
+    color: #2B7A78;
+}
+
+.website-logo-link:link,
+.website-logo-link:visited {
+    font-size: 40px;
+    font-weight: 700;
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.website-logo-link:hover,
+.website-logo-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+.logout-link:link,
+.logout-link:visited,
+.login-link:link,
+.login-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.logout-link:hover,
+.logout-link:active,
+.login-link:hover,
+.login-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+

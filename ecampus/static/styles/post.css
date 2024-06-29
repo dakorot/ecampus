@@ -1,0 +1,14 @@
+.back-to-feed-link:link,
+.back-to-feed-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.back-to-feed-link:hover,
+.back-to-feed-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+.post-content {
+}

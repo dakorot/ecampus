@@ -1,13 +1,32 @@
 {% extends 'main_theme.html' %}
 
 {% block content %}
-<p>This is My Profile.</p>
-<p>Username: @{{ profile.user.username }}</p>
-<p>Name: {{ profile.name }}</p>
-<p>Surname: {{ profile.surname }}</p>
-<p>Faculty: {{ profile.faculty }}</p>
-<p>Group: {{ profile.group }}</p>
-<p>Studying mode: {{ profile.studying_mode }}</p>
-<p>Major: {{ profile.major }}</p>
+
+<div class="profile-grid">
+
+    <div class="profile-avatar">
+        <img class="avatar" src="{{ profile.avatar.url }}" width="170" height="170"/>
+        <p class="profile-name">{{ profile.name }}</p>
+        <p class="profile-surname">{{ profile.surname }}</p>
+    </div>
+
+    <div class="profile-info">
+        <p>Username: @{{ profile.user.username }}</p>
+        <p>Faculty: {{ profile.faculty }}</p>
+        {% if profile.role == 'STUDENT' %}
+        <p>Group: {{ profile.student.group }}</p>
+        {% endif %}
+        {% if profile.role == 'STUDENT' %}
+        <p>Studying mode: {{ profile.student.studying_mode }}</p>
+        {% endif %}
+        {% if profile.role == 'STUDENT' %}
+        <p>Major: {{ profile.student.major }}</p>
+        {% endif %}
+        {% if profile.role == 'LECTURER' %}
+        <p>Title: {{ profile.lecturer.title }}</p>
+        {% endif %}
+    </div>
+
+</div>
 
 {% endblock %}

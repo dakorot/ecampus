@@ -17,7 +17,8 @@
         {% endif %}
 
         {% if request.user.profile.role == 'STUDENT' %}
-        <p><a class="action-link" href="{% url 'create-message' %}">Ask</a> your groupmates how are they feeling today!</p>
+        <p><a class="action-link" href="{% url 'create-message' %}">Ask</a> your groupmates how
+            they are feeling today!</p>
         {% elif request.user.profile.role == 'LECTURER' %}
         <p><a class="action-link" href="{% url 'create-message' %}">Write</a> to your students and colleagues!</p>
         {% endif %}

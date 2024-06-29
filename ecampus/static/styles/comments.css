@@ -1,0 +1,40 @@
+.comments-section-division {
+    color: #DEF2F1;
+}
+
+.comments-division {
+    color: #DEF2F1;
+}
+
+.edit-comment-link:link,
+.edit-comment-link:visited,
+.delete-comment-link:link,
+.delete-comment-link:visited,
+.author-link:link,
+.author-link:visited {
+    color: #2B7A78;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.edit-comment-link:hover,
+.edit-comment-link:active,
+.delete-comment-link:hover,
+.delete-comment-link:active,
+.author-link:hover,
+.author-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+.write-comment-bar {
+    height: 27px;
+    font-size: 15px;
+    color: #2B7A78;
+    padding-left: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #2B7A78;
+    border-radius: 4px;
+    box-shadow: inset 1px 2px 3px rgb(0, 0, 0, 0.12);
+}

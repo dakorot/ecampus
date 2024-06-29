@@ -4,8 +4,8 @@
 <form method="POST" action="">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}?"</p>
-    <a href="{{ request.META.HTTP_REFERER }}">Go Back</a>
-    <input type="submit" value="Confirm"/>
+    <a class="go-back-link" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
+    <input class="submit-button" type="submit" value="Confirm"/>
 </form>
 
 {% endblock %}

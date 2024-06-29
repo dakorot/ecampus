@@ -1,0 +1,88 @@
+.feed {
+    margin-left: 5px;
+    vertical-align: center;
+ }
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 30px;
+}
+
+.user-post {
+    position: relative;
+    height: 400px;
+    width: 500px;
+    background-color: #DEF2F1;
+    border-radius: 10px;
+}
+
+.user-post-info {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.edit-delete-buttons {
+    position: absolute;
+    bottom: 0;
+}
+
+.edit-delete-buttons-grid {
+    margin-bottom: 15px;
+    margin-left: 15px;
+    display: grid;
+    grid-template-columns: 30px 45px;
+    column-gap: 7px;
+}
+
+.post-title-link {
+    font-weight: 700;
+}
+
+.create-post-link:link,
+.create-post-link:visited,
+.author-profile-link:link,
+.author-profile-link:visited,
+.post-title-link:link,
+.post-title-link:visited,
+.post-edit-link:link,
+.post-edit-link:visited,
+.post-delete-link:link,
+.post-delete-link:visited {
+    color: #2B7A78;
+    text-decoration: none;
+}
+
+.create-post-link:hover,
+.create-post-link:active,
+.author-profile-link:hover,
+.author-profile-link:active,
+.post-title-link:hover,
+.post-title-link:active,
+.post-edit-link:hover,
+.post-edit-link:active,
+.post-delete-link:hover,
+.post-delete-link:active {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+@media only screen (max-width: 1920px) {
+    .posts-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen (max-width: 901px) and (max-width: 1400px) {
+    .posts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen (max-width: 900px) {
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+}

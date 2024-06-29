@@ -1,14 +1,16 @@
-<div>
-<a href="/">
-    <h1>LOGO</h1>
-</a>
+<div class="navigation-bar">
+    <div class="website-logo">
+        <a class="website-logo-link" href="/">
+            LOGO
+        </a>
+    </div>
+    <div class="welcome-text">
+        {% if request.user.is_authenticated %}
+        <p>Hi, {{ request.user.username }}!&#160; &#124; &#160;</p>
+        <a class="logout-link" href="{% url 'logout' %}">Logout</a> {% else %}
+        <a class="login-link" href="{% url 'login' %}">Login</a>
+        {% endif %}
 
-{% if request.user.is_authenticated %}
-<p>Hi, {{ request.user.username }}!</p>
-<a href="{% url 'logout' %}">Logout</a>
-{% else %}
-<a href="{% url 'login' %}">Login</a>
-{% endif %}
 
-<hr>
+    </div>
 </div>
