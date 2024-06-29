@@ -19,6 +19,7 @@ class Profile(models.Model):
     faculty = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=10, choices=User.ROLES)
+    avatar = models.ImageField(upload_to='static/images/', null=True, default='static/images/avatar.jpg')
 
     class Meta:
         ordering = ['surname']
@@ -27,9 +28,8 @@ class Profile(models.Model):
 class Student(Profile):
     group = models.CharField(max_length=5)
     studying_mode = models.CharField(max_length=5)
-    studying_year = models.IntegerField
     major = models.CharField(max_length=50)
-    choices = models.ManyToManyField('Choice', related_name='student_choices', null=True, blank=True)
+    choices = models.ManyToManyField('Choice', related_name='student_choices', blank=True)
 
     class Meta:
         # ordering = ['group']
@@ -115,8 +115,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(null=True)
-    # student = models.ManyToManyField(Student)
+    votes = models.IntegerField(null=True, default=0)
 
     def __str__(self):
         return self.choice_text

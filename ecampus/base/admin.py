@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Student, Lecturer, Post, Comment, Message, Grade
+from .models import User, Student, Lecturer, Post, Comment, Message, Grade, Question, Choice
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Student)
@@ -9,3 +9,5 @@ admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Message)
 admin.site.register(Grade)
+admin.site.register(Question)
+admin.site.register(Choice)
