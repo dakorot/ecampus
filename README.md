@@ -1,4 +1,4 @@
-## Ecampus
+# Ecampus
 
 ## Description
 This small project is dedicated to help universities organise their educational process and communication between lecturers and students. 
