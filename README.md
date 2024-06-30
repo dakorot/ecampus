@@ -8,6 +8,7 @@ This small project is dedicated to help universities organise their educational 
 - [Usage](#usage)
 - [Features](#features)
 - [License](#license)
+- [Contacts and Contribution](#contacts-and-contribution)
 
 ## Installation
 1. The project was developed with Python (ver. 3.8+), Django (ver. 4.2+) and Django REST Framework (ver. 3.15+). 
